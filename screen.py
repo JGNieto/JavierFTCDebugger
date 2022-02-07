@@ -6,14 +6,13 @@ import pygame
 from field import get_robot_size, field_to_pixels
 
 robot_position = (0, 0, 0)
-needs_update = True # Initialize to True to guarantee first paint.
 
 screen_width = 600
 screen_height = 600
 
 screen_size = screen_width, screen_height
 
-def init_pygame(screen_size):
+def init_pygame(screen_size = screen_size):
     """ Initializes pygame and creates a window. """
     global screen, field_img, robot_img
 
@@ -45,6 +44,11 @@ def pygame_loop():
     # Go through events to check whether user has quit.
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            """
+            Note: because of the blocking nature of the code, quitting may take
+            a long time to go through (until the next client connection). Thus,
+            Ctrl+C may be the best option.
+            """
             # To indicate quitting, we raise a KeyboardInterrupt.
             raise KeyboardInterrupt
     
@@ -52,19 +56,32 @@ def pygame_loop():
     To avoid wasting resources painting the same image, we only
     update if there has been a change in the robot's position.
     """
-    if not needs_update: return
-    needs_update = False
 
     # Paint background first.
     screen.blit(field_img, (0,0))
 
-    # Then, paint robot.
-    screen.blit(robot_img, (screen_height // 2, screen_height // 2))
+    """ Robot painting. """
+    # Destructure robot position
+    robot_x, robot_y, robot_heading = robot_position
+
+    # Rotate robot to correct heading.
+    robot_rotated = pygame.transform.rotate(robot_img, robot_heading)
+
+    # Compute robot's position on the screen.
+    robot_screen_x, robot_screen_y = field_to_pixels((robot_x, robot_y), screen_size)
+
+    # Retrieve width and height of the robot sprite after rotation
+    robot_w, robot_h = robot_rotated.get_size()
+
+    # Compute the coordinates we need to give pycharm.
+    robot_pycharm_x = robot_screen_x - robot_w // 2
+    robot_pycharm_y = robot_screen_y - robot_h // 2
+
+    screen.blit(robot_rotated, (robot_pycharm_x, robot_pycharm_y))
 
     pygame.display.flip()
 
 def set_robot_position(new_position):
     """ Changes the robot's position. Provide a tuple with values (x, y, heading). """
-    global robot_position, needs_update
+    global robot_position
     robot_position = new_position
-    needs_update = True
