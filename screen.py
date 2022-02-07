@@ -5,7 +5,7 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 from field import get_robot_size, field_to_pixels
 
-robot_position = (0, 0, 0)
+robot_position = (609, 3 * 609 - 337 / 2, 0)
 
 screen_width = 600
 screen_height = 600
@@ -36,6 +36,9 @@ def init_pygame(screen_size = screen_size):
     # Resize robot sprite to its correct dimensions.
     # Again, we can afford smoothscale.
     robot_img = pygame.transform.smoothscale(robot_img_raw, robot_size)
+
+    # Run loop once.
+    pygame_loop()
 
 def pygame_loop():
     """ To be called every iteration. Updates the screen. """

@@ -7,6 +7,9 @@ def main():
     # Open a window and initialize.
     init_pygame()
 
+    # Open socket to clients
+    open_socket()
+
     try:
         """
         Run continuously until a KeyboardInterrupt is either raised by pygame_loop()
