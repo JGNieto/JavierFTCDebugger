@@ -16,7 +16,7 @@ def main():
         or by the user actually pressing Ctrl+C.
         """
         while True:
-            # Wait until a connection is established (blocking).
+            # See whether there is a socket connection.
             wait_for_connection()
 
             # Execute the update to the pygame screen.

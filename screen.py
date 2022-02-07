@@ -5,7 +5,8 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 from field import get_robot_size, field_to_pixels
 
-robot_position = (609, 3 * 609 - 337 / 2, 0)
+robot_position = (0, 0, 0)
+needs_update = True
 
 screen_width = 600
 screen_height = 600
@@ -59,6 +60,7 @@ def pygame_loop():
     To avoid wasting resources painting the same image, we only
     update if there has been a change in the robot's position.
     """
+    if not needs_update: return
 
     # Paint background first.
     screen.blit(field_img, (0,0))
@@ -84,7 +86,10 @@ def pygame_loop():
 
     pygame.display.flip()
 
+    needs_update = False
+
 def set_robot_position(new_position):
     """ Changes the robot's position. Provide a tuple with values (x, y, heading). """
-    global robot_position
+    global robot_position, needs_update
+    needs_update = True
     robot_position = new_position

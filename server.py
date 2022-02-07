@@ -17,11 +17,14 @@ def open_socket():
     my_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     my_socket.bind((HOST, PORT))
     my_socket.listen()
+    my_socket.setblocking(0)
 
 def wait_for_connection():
-    """ This function closes the socket connection. Very important. """
+    """ This function sees if the client has sent new position information. """
     global connection_counter
-    conn, addr = my_socket.accept()
+    try:
+        conn, addr = my_socket.accept()
+    except: return
     connection_counter += 1
     with conn:
         print("Received connection", connection_counter, "from addr", addr)
@@ -43,9 +46,6 @@ def wait_for_connection():
             print("Data does not end with semicolon", connection_counter, total_data)
             return
 
-        # Remove last character (semicolon)
-        total_data = total_data[:-1]
-
         try:
             version = int(total_data.split("v", 1)[0])
             if version > VERSION:
@@ -57,7 +57,7 @@ def wait_for_connection():
 
             x = int(numbers[0])
             y = int(numbers[1])
-            heading = int(numbers[2].split(";", 1)[0])
+            heading = int(numbers[2].split(";", 1)[0]) # The semicolon allows us to cleanly remove the garbage from the end of the message.
 
             robot_position = x, y, heading
             print("New robot position", robot_position)
@@ -67,5 +67,5 @@ def wait_for_connection():
             print("Error processing", connection_counter, e)
 
 def close_socket():
-    """ This function waits for the client to send new position information. """
+    """ This function closes the socket connection. Very important. """
     my_socket.close()
