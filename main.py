@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
-from field import field_to_pixels
-from screen import init_pygame, pygame_loop, screen_size
+from screen import init_pygame, pygame_loop
 from server import open_socket, close_socket, wait_for_connection
 
 def main():
-    # Open a window and initialize.
-    init_pygame()
-
     # Open socket to clients
     open_socket()
+
+    # Open a window and initialize.
+    init_pygame()
 
     try:
         """
