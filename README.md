@@ -1,5 +1,7 @@
 # Javier's Debugging for FTC
 
+Developed by Javier García Nieto for The OHM Raiders (#11468)
+
 The purpose of this simple program is to serve as a screen to monitor the location of an FTC robot in the field during testing. It receives information through TCP and displays it on the screen.
 
 Note: only tested on a Control Hub.
