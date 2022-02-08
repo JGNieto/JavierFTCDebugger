@@ -1,4 +1,4 @@
-name: debugclient
+name: javierdebug
 channels:
   - defaults
 dependencies:

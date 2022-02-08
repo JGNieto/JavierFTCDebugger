@@ -4,7 +4,7 @@ from screen import set_robot_position, set_message
 
 # Local IP Address within the robot's network. 
 # Make sure you manually set your computer to have this IP Address.
-HOST = "192.168.43.97"
+HOST = "192.168.43.97" # CHANGE THIS
 PORT = 11468 # Port used for TCP. 11468 is the OHM Raiders' FTC team number.
 
 # The version of our little debugging protocol that we support.
