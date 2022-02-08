@@ -1,4 +1,4 @@
-from distutils.log import debug
+import logging
 import socket
 from screen import set_robot_position, set_message
 
@@ -43,7 +43,7 @@ def wait_for_connection():
 
     # Use "with" to autmatically handle closing the connection.
     with conn:
-        debug("Received connection", connection_counter, "from addr", addr)
+        logging.debug("Received connection", connection_counter, "from addr", addr)
 
         # Initialize variable to aggregate data.
         total_data = ""
@@ -97,7 +97,7 @@ def wait_for_connection():
 
             # Make tuple with robot position.
             robot_position = x, y, heading
-            debug("New robot position", robot_position)
+            logging.debug("New robot position", robot_position)
 
             # Update robot position to the screen.
             set_robot_position(robot_position)

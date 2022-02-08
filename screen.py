@@ -21,23 +21,23 @@ def init_pygame(screen_size = screen_size):
 
     # Open screen and set caption.
     screen = pygame.display.set_mode(screen_size)
-    icon = pygame.image.load("icon.png");
+    icon = pygame.image.load("assets/icon.png");
     pygame.display.set_icon(icon)
     pygame.display.set_caption("Javier's Debugging #11468") # 11468 is the FTC team number.
 
     # Init font module
     pygame.font.init()
-    font = pygame.font.Font("UbuntuMono-Regular.ttf", 30)
+    font = pygame.font.Font("assets/UbuntuMono-Regular.ttf", 30)
 
     # Get image for field background.
-    field_img_raw = pygame.image.load("field-cropped.png")
+    field_img_raw = pygame.image.load("assets/field-cropped.png")
 
     # Scale the image to the size of the screen.
     # We can afford smoothscale since this is a one-off computation.
     field_img = pygame.transform.smoothscale(field_img_raw, screen_size)
 
     # Get robot sprite.
-    robot_img_raw = pygame.image.load("robot.png")
+    robot_img_raw = pygame.image.load("assets/robot.png")
 
     # Grab robot size.
     robot_size = get_robot_size(screen_size)
