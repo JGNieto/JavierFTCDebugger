@@ -13,7 +13,7 @@ Note: only tested on a Control Hub.
 - Activate environment: `conda activate javierdebug`
 - Connect to your robot's wifi network.
 - You need to set up a custom IP address for your laptop on the robot's network. This depends on your device and might be done differently in the future, but some useful tutorials can be: [windows](https://www.trendnet.com/press/resource-library/how-to-set-static-ip-address) or [mac](https://www.macinstruct.com/tutorials/how-to-set-a-static-ip-address-on-a-mac/). I recommend you set it to our default, `192.168.43.97`, but you may choose whichever you like.
-- If you have set an IP address different than `192.168.43.97`, change the HOST variable in screen.py to match (the one that says "change this").
+- If you have set an IP address different than `192.168.43.97`, change the HOST variable in screen.py to match (the line that says "change this").
 - Reboot your robot and laptop, for good measure. This is not strictly necessary but may save you some headaches.
 - You may need to run `conda activate javierdebug` again after the reboot, or even if you close the terminal and open it again.
 - Run `python3 main.py` in the directory where you cloned this repository.
