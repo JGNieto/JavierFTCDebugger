@@ -2,6 +2,8 @@
 from screen import init_pygame, pygame_loop
 from server import open_socket, close_socket, wait_for_connection
 
+import traceback
+
 def main():
     # Open socket to clients
     open_socket()
@@ -24,7 +26,7 @@ def main():
         print("Closing...")
     except Exception as e:
         # Unexpected.
-        print(e)
+        traceback.print_exc()
     finally:
         # It is VERY important that the socket is closed.
         close_socket()

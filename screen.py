@@ -15,6 +15,9 @@ screen_height = 600
 
 screen_size = screen_width, screen_height
 
+pen_down = False
+show_robot = True
+
 def init_pygame(screen_size = screen_size):
     """ Initializes pygame and creates a window. """
     global screen, field_img, robot_img, font
@@ -46,15 +49,36 @@ def init_pygame(screen_size = screen_size):
     # Again, we can afford smoothscale.
     robot_img = pygame.transform.smoothscale(robot_img_raw, robot_size)
 
+    clear_pen_surface()
+
+def clear_pen_surface():
+    global pen_surface
+    pen_surface = pygame.Surface(screen_size, flags=pygame.SRCALPHA)
+    pen_surface.fill((0, 0, 0, 0))
+
 def pygame_loop():
     """ To be called every iteration. Updates the screen if needed. """
-    global needs_update, message, robot_position
+    global needs_update, message, robot_position, pen_down, pen_surface, show_robot
 
     # Go through events to check whether user has quit.
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             # To indicate quitting, we raise a KeyboardInterrupt.
             raise KeyboardInterrupt
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_DOWN:
+                pen_down = True
+            elif event.key == pygame.K_UP:
+                pen_down = False
+            elif event.key == pygame.K_c:
+                clear_pen_surface()
+                needs_update = True
+            elif event.key == pygame.K_h:
+                show_robot = False
+                needs_update = True
+            elif event.key == pygame.K_s:
+                show_robot = True
+                needs_update = True
     
     """
     To avoid wasting resources painting the same image, we only
@@ -91,11 +115,19 @@ def pygame_loop():
         # Retrieve width and height of the robot sprite after rotation
         robot_w, robot_h = robot_rotated.get_size()
 
-        # Compute the coordinates we need to give pycharm.
-        robot_pycharm_x = robot_screen_x - robot_w // 2
-        robot_pycharm_y = robot_screen_y - robot_h // 2
+        # Compute the coordinates we need to give pygame.
+        robot_pygame_x = robot_screen_x - robot_w // 2
+        robot_pygame_y = robot_screen_y - robot_h // 2
+        robot_pygame_pos = robot_pygame_x, robot_pygame_y
 
-        screen.blit(robot_rotated, (robot_pycharm_x, robot_pycharm_y))
+        if pen_down:
+            pen_position = int(robot_screen_x), int(robot_screen_y)
+            pen_surface.set_at(pen_position, (255, 0, 0, 255))
+
+        screen.blit(pen_surface, (0, 0))
+        
+        if show_robot:
+            screen.blit(robot_rotated, robot_pygame_pos)
 
     pygame.display.flip()
     needs_update = False
